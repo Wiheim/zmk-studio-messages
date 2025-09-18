@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package zmk.encoders;
+
+import "keymap.proto"; // for BehaviorBinding
+
+message Request {
+	oneof request_type {
+		bool get_info = 1; // presence-only
+		GetMappingRequest get_mapping = 2;
+		SetMappingRequest set_mapping = 3;
+		ClearMappingRequest clear_mapping = 4;
+	}
+}
+
+message Response {
+	oneof response_type {
+		GetInfoResponse get_info = 1;
+		GetMappingResponse get_mapping = 2;
+		// set_mapping and clear_mapping return ZMK_RPC_NO_RESPONSE (meta.no_response = true)
+		// No explicit response fields needed
+	}
+}
+
+message GetInfoResponse {
+	uint32 num_layers = 1;
+	uint32 num_sensors = 2;
+}
+
+message GetMappingRequest {
+	uint32 layer_id = 1;
+	uint32 sensor_index = 2;
+}
+
+message GetMappingResponse {
+	optional zmk.keymap.BehaviorBinding cw = 1;
+	optional zmk.keymap.BehaviorBinding ccw = 2;
+}
+
+message SetMappingRequest {
+	uint32 layer_id = 1;
+	uint32 sensor_index = 2;
+	optional zmk.keymap.BehaviorBinding cw = 3;
+	optional zmk.keymap.BehaviorBinding ccw = 4;
+}
+
+message ClearMappingRequest {
+	uint32 layer_id = 1;
+	uint32 sensor_index = 2;
+}
+
+
