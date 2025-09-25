@@ -32,6 +32,12 @@ message GetInfoResponse {
     bool has_rgb_underglow = 1; // Whether RGB underglow hardware is available
 }
 
+message GetGlobalRgbRequest {}
+
+message GetGlobalRgbResponse {
+    RgbLayerConfig config = 1; // Global RGB configuration
+}
+
 message GetLayerRgbRequest {
     uint32 layer_id = 1; // Layer ID to query (0-based)
 }
@@ -56,19 +62,20 @@ message ClearLayerRgbResponse {}
 message Request {
     oneof request_type {
         GetInfoRequest get_info = 1;
-        GetLayerRgbRequest get_layer_rgb = 2;
-        SetLayerRgbRequest set_layer_rgb = 3;
-        ClearLayerRgbRequest clear_layer_rgb = 4;
+        GetGlobalRgbRequest get_global_rgb = 2;
+        GetLayerRgbRequest get_layer_rgb = 3;
+        SetLayerRgbRequest set_layer_rgb = 4;
+        ClearLayerRgbRequest clear_layer_rgb = 5;
     }
 }
 
 message Response {
     oneof response_type {
         GetInfoResponse get_info = 1;
-        GetLayerRgbResponse get_layer_rgb = 2;
-        SetLayerRgbResponse set_layer_rgb = 3;
-        ClearLayerRgbResponse clear_layer_rgb = 4;
-        meta.ErrorConditions error = 5;
+        GetGlobalRgbResponse get_global_rgb = 2;
+        GetLayerRgbResponse get_layer_rgb = 3;
+        SetLayerRgbResponse set_layer_rgb = 4;
+        ClearLayerRgbResponse clear_layer_rgb = 5;
+        meta.ErrorConditions error = 6;
     }
 }
-
